@@ -14,8 +14,13 @@ learning from previous proofs with the translation of problems to the
 logics of automated systems and the reconstruction of successfully found proofs.
 """
 
-build: [make "-j%{jobs}%" {ocaml:version >= "4.08"} "plugin"]
+build: [
+  [make "-j%{jobs}%" {ocaml:version >= "4.08"} "tactics"]
+  [make "-j%{jobs}%" {ocaml:version >= "4.08"} "plugin"]
+]
 install: [
+  [make "install-tactics"]
+  [make "test-tactics"] {with-test}
   [make "install-plugin"]
   [make "test-plugin"] {with-test}
 ]
@@ -23,7 +28,7 @@ depends: [
   "ocaml" {>= "4.08"}
   "coq" {>= "8.11" & < "8.12~"}
   ("conf-g++" {build} | "conf-clang" {build})
-  "coq-hammer-tactics" {= version}
+  # "coq-hammer-tactics" {= version}
   "coq-tactician"
 ]
 pin-depends: [
