@@ -23,6 +23,13 @@ install: [
 depends: [
   "ocaml" {>= "4.08"}
   "coq" {>= "8.11" & < "8.12~"}
+  "coq-tactician"
+]
+pin-depends: [
+  [
+    "coq-tactician.8.11.dev"
+    "git+https://github.com/coq-tactician/coq-tactician.git#b6bf72cd774a8ac844fb0247d2c1e85d3625b22e"
+  ]
 ]
 
 tags: [
