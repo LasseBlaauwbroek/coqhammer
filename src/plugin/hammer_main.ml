@@ -343,3 +343,36 @@ let print_fol_tac () =
   in
   Provers.write_atp_file file deps1 hyps deps goal;
   Proofview.tclUNIT ()
+
+open Tactician_ltac1_record_plugin__Tactic_learner
+
+let get_tactic (s : string) =
+  try
+    (Tacenv.locate_tactic (Libnames.qualid_of_string s))
+  with Not_found ->
+    failwith ("tactic not found: " ^ s)
+
+let get_tacexpr tac args =
+  Tacexpr.TacArg(CAst.make
+                   Tacexpr.(TacCall(CAst.make
+                                      (Locus.ArgArg(None, get_tactic tac),
+                                       args))))
+
+
+module HLearner : TacticianOnlineLearnerType = functor (TS : TacticianStructures) -> struct
+  open TS
+
+  type model = unit
+
+  let extra_tactic = { confidence = 1.; focus = 0
+                     ; tactic = tactic_make
+                           (get_tacexpr "Hammer.Hammer.fol" []) }
+  let empty () = ()
+  let learn () _ _ _ = ()
+  let predict m s =
+    IStream.cons extra_tactic IStream.empty
+  let evaluate db _ _ = 0., db
+end
+
+let () = register_online_learner "Hplugin learner" (module HLearner)
+let () = Feedback.msg_notice Pp.(str "hammer main loaded")
