@@ -24,11 +24,16 @@ depends: [
   "coq" {>= "8.11" & < "8.12~"}
   ("conf-g++" {build} | "conf-clang" {build})
   "coq-tactician"
+  "coq-hammer-tactics"
 ]
 pin-depends: [
   [
     "coq-tactician.8.11.dev"
     "git+https://github.com/coq-tactician/coq-tactician.git#b6bf72cd774a8ac844fb0247d2c1e85d3625b22e"
+  ]
+  [
+    "coq-hammer-tactics.8.11.dev"
+    "git+https://github.com/LasseBlaauwbroek/coqhammer.git#c3af77c9f3864d6a29bcfd71eb44bec37f5c8bcf"
   ]
 ]
 
