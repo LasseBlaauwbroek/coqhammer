@@ -364,13 +364,13 @@ module HLearner : TacticianOnlineLearnerType = functor (TS : TacticianStructures
 
   type model = unit
 
-  let extra_tactic = { confidence = 1.; focus = 0
-                     ; tactic = tactic_make
-                           (get_tacexpr "Hammer.Hammer.fol" []) }
+  let extra_tactic () = { confidence = 1.; focus = 0
+                        ; tactic = tactic_make
+                              (get_tacexpr "Hammer.Plugin.Hammer.fol" []) }
   let empty () = ()
   let learn () _ _ _ = ()
   let predict m s =
-    IStream.cons extra_tactic IStream.empty
+    IStream.cons (extra_tactic ()) IStream.empty
   let evaluate db _ _ = 0., db
 end
 
