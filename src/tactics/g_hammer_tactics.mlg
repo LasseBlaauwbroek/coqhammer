@@ -4,8 +4,6 @@ DECLARE PLUGIN "hammer_tactics"
 open Ltac_plugin
 open Stdarg
 open Tacarg
-open Pcoq.Prim
-open Pltac
 open Hammer_errors
 open Sauto
 open Tacopts
