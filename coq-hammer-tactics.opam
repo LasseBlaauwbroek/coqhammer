@@ -26,12 +26,6 @@ depends: [
   "coq-tactician"
   "coq-tactician-stdlib"
 ]
-pin-depends: [
-  [
-    "coq-tactician.8.11.dev"
-    "git+https://github.com/coq-tactician/coq-tactician.git#b6bf72cd774a8ac844fb0247d2c1e85d3625b22e"
-  ]
-]
 
 tags: [
   "keyword:automation"
