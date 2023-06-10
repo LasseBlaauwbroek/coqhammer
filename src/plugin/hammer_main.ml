@@ -1078,7 +1078,7 @@ module HLearner : TacticianOnlineLearnerType = functor (TS : TacticianStructures
 
   let extra_tactic () = { confidence = 1.; focus = 0
                         ; tactic = tactic_make
-                              (get_tacexpr "Hammer.Plugin.Hammer.hammer" []) }
+                              (get_tacexpr "Hammer.Tactics.Tactics.sauto" []) }
   let empty () = ()
   let learn () _ _ _ = ()
   let predict m s =
