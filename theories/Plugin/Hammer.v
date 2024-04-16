@@ -1,4 +1,4 @@
-From Sniper Require Import Sniper.
+From Sniper Require Export Sniper.
 From Hammer Require Export Tactics.
 
 Ltac my_snipe := snipe.
