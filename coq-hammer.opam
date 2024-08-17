@@ -33,7 +33,7 @@ pin-depends: [
   ]
   [
     "coq-hammer-tactics.8.11.dev"
-    "git+https://github.com/LasseBlaauwbroek/coqhammer.git#c3af77c9f3864d6a29bcfd71eb44bec37f5c8bcf"
+    "git+https://github.com/LasseBlaauwbroek/coqhammer.git#c41b8acd377d639928c145c967003394327cae5a"
   ]
 ]
 
