@@ -3,8 +3,6 @@ DECLARE PLUGIN "hammer_plugin"
 {
 
 open Ltac_plugin
-open Stdarg
-open Tacarg
 
 let hammer_version_string = "CoqHammer (dev) for Coq 8.11"
 
@@ -19,70 +17,6 @@ open Hammer_main
 }
 
 TACTIC EXTEND Hammer_tac
-| [ "hammer" ] -> { hammer_tac () }
 | [ "fol" ] -> { print_fol_tac () }
 END
 
-TACTIC EXTEND Predict_tac_1
-| [ "predict" integer(n) ] -> { predict_tac n !Opt.predict_method }
-END
-
-TACTIC EXTEND Predict_tac_2
-| [ "predict" integer(n) string(pred_method) ] -> { predict_tac n pred_method }
-END
-
-TACTIC EXTEND Hammer_features_tac
-| [ "hammer_features" ] -> { hammer_features_tac () }
-END
-
-{
-let hammer_cleanup () =
-  Coq_transl.cleanup ();
-  Features.cleanup ()
-}
-
-VERNAC COMMAND EXTEND Hammer_plugin_cleanup CLASSIFIED AS SIDEFF
-| [ "Hammer_cleanup" ] -> { hammer_cleanup () }
-END
-
-VERNAC COMMAND EXTEND Hammer_plugin_print CLASSIFIED AS QUERY
-| [ "Hammer_print" string(name) ] -> { hammer_print name }
-END
-
-VERNAC COMMAND EXTEND Hammer_plugin_transl CLASSIFIED AS QUERY
-| [ "Hammer_transl" string(name) ] -> { hammer_transl name }
-END
-
-TACTIC EXTEND Hammer_plugin_transl_tac
-| [ "hammer_transl" ] -> { hammer_transl_tac () }
-END
-
-VERNAC COMMAND EXTEND Hammer_plugin_features CLASSIFIED AS QUERY
-| [ "Hammer_features" string(name) ] -> { hammer_features name }
-END
-
-VERNAC COMMAND EXTEND Hammer_plugin_features_cached CLASSIFIED AS QUERY
-| [ "Hammer_features_cached" string(name) ] -> { hammer_features_cached name }
-END
-
-VERNAC COMMAND EXTEND Hammer_plugin_objects CLASSIFIED AS QUERY
-| [ "Hammer_objects" ] -> { hammer_objects () }
-END
-
-{
-let hammer_version () =
-  Msg.info hammer_version_string
-}
-
-VERNAC COMMAND EXTEND Hammer_plugin_version CLASSIFIED AS QUERY
-| [ "Hammer_version" ] -> { hammer_version () }
-END
-
-TACTIC EXTEND Hammer_hook_tac
-| [ "hammer_hook" string(prefix) string(name) ] -> { hammer_hook_tac prefix name }
-END
-
-TACTIC EXTEND Hammer_ptimeout_tac
-| [ "ptimeout" integer(n) tactic3(tac) ] ->
-  { Timeout.ptimeout n (Tacinterp.tactic_of_value (Tacinterp.default_ist ()) tac) }
-END

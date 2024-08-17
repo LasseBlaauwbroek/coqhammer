@@ -23,10 +23,6 @@ src/tactics/tacbest.ml
 src/tactics/tactics_main.ml
 src/tactics/g_hammer_tactics.mlg
 src/tactics/hammer_tactics.mllib
-theories/Tactics/Reconstr.v
-theories/Tactics/Reflect.v
-theories/Tactics/Tactics.v
-theories/Tactics/Hints.v
 src/plugin/hh_term.ml
 src/plugin/msg.ml
 src/plugin/timeout.ml
@@ -53,4 +49,6 @@ src/plugin/provers.ml
 src/plugin/hammer_main.ml
 src/plugin/g_hammer.mlg
 src/plugin/hammer_plugin.mlpack
+-arg -debug
+-arg -noinit
 theories/Plugin/Hammer.v
