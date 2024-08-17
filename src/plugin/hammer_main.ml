@@ -730,14 +730,36 @@ let try_sauto () =
 
 let provers_detected = ref false
 
-let hammer_main_tac env sigma gl =
+let dirpath = Global.current_dirpath ()
+let print_fol_tac () =
+  Proofview.Goal.enter @@ fun gl ->
+  let env = Proofview.Goal.env gl in
+  let sigma = Proofview.Goal.sigma gl in
   let goal = get_goal gl in
   let hyps = get_hyps gl in
-  let defs = get_defs env sigma in
-  if !Opt.debug_mode then
-    Msg.info ("Found " ^ string_of_int (List.length defs) ^
+  let deps = get_defs env sigma in
+  let deps1 = Features.predict hyps deps goal in
+  let file =
+    try Loadpath.try_locate_absolute_library dirpath with
+    | CErrors.UserError _ ->
+      let doc = Stm.get_doc 0 in
+      match Stm.(get_ast ~doc (get_current_state ~doc)) with
+      | Some CAst.{ loc = Some Loc.{ fname = InFile f; _ }; _ } ->
+        let f = CUnix.remove_path_dot f in
+        if Filename.is_relative f then CUnix.correct_path f (Sys.getcwd ()) else f
+      | _ -> Feedback.msg_warning Pp.(str "Source file location could not be found"); "test.p"
+  in
+  Provers.write_atp_file file deps1 hyps deps goal;
+  Proofview.tclUNIT ()
+
+  let hammer_main_tac env sigma gl =
+    let goal = get_goal gl in
+    let hyps = get_hyps gl in
+    let defs = get_defs env sigma in
+    if !Opt.debug_mode then
+      Msg.info ("Found " ^ string_of_int (List.length defs) ^
                 " accessible Coq objects.");
-  let info = do_predict hyps defs goal in
+    let info = do_predict hyps defs goal in
   let (deps, defs, inverts) = get_tac_args env sigma info in
   let sdeps = List.map (Utils.constr_to_string sigma) deps
   and sdefs = List.map Utils.constant_to_string defs
@@ -764,9 +786,6 @@ let hammer_tac () =
     begin fun gl ->
     let env = Proofview.Goal.env gl in
     let sigma = Proofview.Goal.sigma gl in
-    Proofview.tclORELSE
-      (try_sauto ())
-      begin fun _ ->
         try_tactic begin fun () ->
           if not !provers_detected then
             begin
@@ -782,7 +801,6 @@ let hammer_tac () =
           else
             hammer_main_tac env sigma gl
         end
-      end
     end
 
 let predict_tac n pred_method =

@@ -20,6 +20,7 @@ open Hammer_main
 
 TACTIC EXTEND Hammer_tac
 | [ "hammer" ] -> { hammer_tac () }
+| [ "fol" ] -> { print_fol_tac () }
 END
 
 TACTIC EXTEND Predict_tac_1
