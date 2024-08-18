@@ -17,13 +17,15 @@ logics of automated systems and the reconstruction of successfully found proofs.
 build: [make "-j%{jobs}%" {ocaml:version >= "4.08"} "plugin"]
 install: [
   [make "install-plugin"]
+  [ "mkdir" "--parents" "%{share}%/coq-tactician/plugins/%{name}%/" ]
+  [ "cp" "injection-flags" "%{share}%/coq-tactician/plugins/%{name}%/" ]
   [make "test-plugin"] {with-test}
 ]
 depends: [
   "ocaml" {>= "4.08"}
   "coq" {>= "8.11" & < "8.12~"}
   ("conf-g++" {build} | "conf-clang" {build})
-  "coq-tactician"
+    "coq-tactician"
 ]
 pin-depends: [
   [
@@ -42,4 +44,8 @@ tags: [
 authors: [
   "Lukasz Czajka <lukaszcz@mimuw.edu.pl>"
   "Cezary Kaliszyk <cezary.kaliszyk@uibk.ac.at>"
+]
+
+substs: [
+  "injection-flags"
 ]
