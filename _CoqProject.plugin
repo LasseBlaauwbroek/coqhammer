@@ -1,6 +1,11 @@
 -Q theories/Plugin Hammer.Plugin
 -Q src/plugin Hammer.Plugin
 -I src/plugin
+-I src/lib
+src/lib/hammer_errors.ml
+src/lib/hhutils.mli
+src/lib/hhutils.ml
+src/lib/hhlib.ml
 src/plugin/hh_term.ml
 src/plugin/msg.ml
 src/plugin/timeout.ml
@@ -27,4 +32,5 @@ src/plugin/provers.ml
 src/plugin/hammer_main.ml
 src/plugin/g_hammer.mlg
 src/plugin/hammer_plugin.mlpack
+-arg -noinit
 theories/Plugin/Hammer.v

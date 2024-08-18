@@ -49,6 +49,5 @@ src/plugin/provers.ml
 src/plugin/hammer_main.ml
 src/plugin/g_hammer.mlg
 src/plugin/hammer_plugin.mlpack
--arg -debug
 -arg -noinit
 theories/Plugin/Hammer.v
