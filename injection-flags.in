@@ -1,1 +1,1 @@
--R %{coq:lib}%/user-contrib/Hammer Hammer
+-I %{coq:lib}%/user-contrib/Hammer/Plugin -R %{coq:lib}%/user-contrib/Hammer Hammer
