@@ -382,4 +382,3 @@ module HLearner : TacticianOnlineLearnerType = functor (TS : TacticianStructures
 end
 
 let () = register_online_learner "Hplugin learner" (module HLearner)
-let () = Feedback.msg_notice Pp.(str "hammer main loaded")
