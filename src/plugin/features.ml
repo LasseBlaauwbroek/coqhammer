@@ -159,9 +159,13 @@ let is_nontrivial (def : hhdef) : bool =
 let extract (hyps : hhdef list) (defs : hhdef list) (goal : hhdef) : string =
   Msg.info "Extracting features...";
   let fname = Filename.temp_file "predict" "" in
+  print_endline ("tmp file" ^ fname);
   let ocfea = open_out (fname ^ "fea") in
+  print_endline ("ocfea");
   let ocdep = open_out (fname ^ "dep") in
+  print_endline ("dep");
   let ocseq = open_out (fname ^ "seq") in
+  print_endline ("seq");
   let defs = List.filter is_nontrivial defs in
   if !Opt.debug_mode then
     Msg.info ("After filtering: " ^ string_of_int (List.length defs) ^ " Coq objects.");
