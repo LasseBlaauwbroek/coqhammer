@@ -345,8 +345,8 @@ let print_fol_tac () =
   if not @@ Sys.file_exists dir then
     Unix.mkdir dir 0o755;
   let [@warning "-8"] proof_name = Vernacstate.Proof_global.get_current_proof_name () in
-  let const = Names.Constant.make2 (Global.current_modpath ()) (Names.Label.of_id proof_name) in
-  let file = dir ^ Names.Constant.to_string const ^ ".p" in
+  let path = Lib.make_path proof_name in
+  let file = dir ^ Libnames.string_of_path path ^ ".p" in
   Feedback.msg_notice (Pp.str file);
   Provers.write_atp_file file deps1 hyps deps goal;
   Proofview.tclUNIT ()
