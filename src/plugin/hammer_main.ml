@@ -331,8 +331,7 @@ let print_fol_tac () =
   let hyps = get_hyps gl in
   let deps = get_defs env sigma in
   let deps1 = Features.predict hyps deps goal in
-  Feedback.msg_warning Pp.(str "Extracted");
-  CErrors.user_err Pp.(str "Error");
+  print_endline "Extracted";
   let file =
     try Loadpath.try_locate_absolute_library dirpath with
     | CErrors.UserError _ ->
@@ -343,16 +342,16 @@ let print_fol_tac () =
         if Filename.is_relative f then CUnix.correct_path f (Sys.getcwd ()) else f
       | _ -> Feedback.msg_warning Pp.(str "Source file location could not be found"); "test.p"
   in
-  Feedback.msg_warning Pp.(str "File");
+  print_endline "File";
   let dir = Filename.remove_extension file ^ "_fol/" in
-  Feedback.msg_warning Pp.(str "Dir");
+  print_endline "Dir";
   if not @@ Sys.file_exists dir then
     Unix.mkdir dir 0o755;
-  Feedback.msg_warning Pp.(str "Create dir");
+  print_endline "Create dir";
   let [@warning "-8"] proof_name = Vernacstate.Proof_global.get_current_proof_name () in
-  Feedback.msg_warning Pp.(str "proof name");
+  print_endline"proof name";
   let path = Lib.make_path proof_name in
-  Feedback.msg_warning Pp.(str "path");
+  print_endline "path";
   let file = dir ^ Libnames.string_of_path path ^ ".p" in
   Feedback.msg_warning (Pp.str file);
   Provers.write_atp_file file deps1 hyps deps goal;
