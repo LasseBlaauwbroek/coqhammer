@@ -325,31 +325,34 @@ let provers_detected = ref false
 let dirpath = Global.current_dirpath ()
 let print_fol_tac () =
   Proofview.Goal.enter @@ fun gl ->
-  let env = Proofview.Goal.env gl in
-  let sigma = Proofview.Goal.sigma gl in
-  let goal = get_goal gl in
-  let hyps = get_hyps gl in
-  let deps = get_defs env sigma in
-  let deps1 = Features.predict hyps deps goal in
-  let file =
-    try Loadpath.try_locate_absolute_library dirpath with
-    | CErrors.UserError _ ->
-      let doc = Stm.get_doc 0 in
-      match Stm.(get_ast ~doc (get_current_state ~doc)) with
-      | Some CAst.{ loc = Some Loc.{ fname = InFile f; _ }; _ } ->
-        let f = CUnix.remove_path_dot f in
-        if Filename.is_relative f then CUnix.correct_path f (Sys.getcwd ()) else f
-      | _ -> Feedback.msg_warning Pp.(str "Source file location could not be found"); "test.p"
-  in
-  let dir = Filename.remove_extension file ^ "_fol/" in
-  if not @@ Sys.file_exists dir then
-    Unix.mkdir dir 0o755;
-  let [@warning "-8"] proof_name = Vernacstate.Proof_global.get_current_proof_name () in
-  let path = Lib.make_path proof_name in
-  let file = dir ^ Libnames.string_of_path path ^ ".p" in
-  Feedback.msg_notice (Pp.str file);
-  Provers.write_atp_file file deps1 hyps deps goal;
-  Proofview.tclUNIT ()
+  try
+    let env = Proofview.Goal.env gl in
+    let sigma = Proofview.Goal.sigma gl in
+    let goal = get_goal gl in
+    let hyps = get_hyps gl in
+    let deps = get_defs env sigma in
+    let deps1 = Features.predict hyps deps goal in
+    let file =
+      try Loadpath.try_locate_absolute_library dirpath with
+      | CErrors.UserError _ ->
+        let doc = Stm.get_doc 0 in
+        match Stm.(get_ast ~doc (get_current_state ~doc)) with
+        | Some CAst.{ loc = Some Loc.{ fname = InFile f; _ }; _ } ->
+          let f = CUnix.remove_path_dot f in
+          if Filename.is_relative f then CUnix.correct_path f (Sys.getcwd ()) else f
+        | _ -> Feedback.msg_warning Pp.(str "Source file location could not be found"); "test.p"
+    in
+    let dir = Filename.remove_extension file ^ "_fol/" in
+    if not @@ Sys.file_exists dir then
+      Unix.mkdir dir 0o755;
+    let [@warning "-8"] proof_name = Vernacstate.Proof_global.get_current_proof_name () in
+    let path = Lib.make_path proof_name in
+    let file = dir ^ Libnames.string_of_path path ^ ".p" in
+    Provers.write_atp_file file deps1 hyps deps goal;
+    Proofview.tclUNIT ()
+    with e ->
+      Feedback.msg_warning Pp.(str "Exception during FOL generation: " ++ str (Printexc.to_string e));
+      raise e
 
 open Tactician_ltac1_record_plugin__Tactic_learner
 
