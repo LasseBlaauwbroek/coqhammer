@@ -330,6 +330,7 @@ let print_fol_tac () =
   let goal = get_goal gl in
   let hyps = get_hyps gl in
   let deps = get_defs env sigma in
+  print_endline "blah";
   let deps1 = Features.predict hyps deps goal in
   print_endline "Extracted";
   let file =
