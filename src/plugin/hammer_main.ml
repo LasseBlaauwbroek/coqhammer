@@ -332,6 +332,7 @@ let print_fol_tac () =
   let deps = get_defs env sigma in
   let deps1 = Features.predict hyps deps goal in
   Feedback.msg_warning Pp.(str "Extracted");
+  CErrors.user_err Pp.(str "Error");
   let file =
     try Loadpath.try_locate_absolute_library dirpath with
     | CErrors.UserError _ ->
