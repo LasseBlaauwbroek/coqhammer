@@ -158,6 +158,7 @@ let is_nontrivial (def : hhdef) : bool =
 
 let extract (hyps : hhdef list) (defs : hhdef list) (goal : hhdef) : string =
   Msg.info "Extracting features...";
+  print_endline "blabla";
   let fname = Filename.temp_file "predict" "" in
   print_endline ("tmp file" ^ fname);
   let ocfea = open_out (fname ^ "fea") in
