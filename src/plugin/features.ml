@@ -231,10 +231,14 @@ let clean fname =
 
 let predict (hyps : hhdef list) (defs : hhdef list) (goal : hhdef) : hhdef list =
   let fname = extract hyps defs goal in
+  print_endline "extracted";
   try
     let r = run_predict fname defs !Opt.predictions_num !Opt.predict_method in
+    print_endline "predicted";
     clean fname;
+    print_endline "cleaned";
     r
   with e ->
+    print_endline "exception";
     clean fname;
     raise e
