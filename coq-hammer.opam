@@ -25,7 +25,6 @@ depends: [
   ("conf-g++" {build} | "conf-clang" {build})
   "coq-hammer-tactics"
   "coq-tactician"
-  "eprover"
 ]
 pin-depends: [
   [
