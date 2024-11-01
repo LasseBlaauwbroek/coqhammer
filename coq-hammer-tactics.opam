@@ -24,7 +24,6 @@ depends: [
   "ocaml" {>= "4.08"}
   "coq" {>= "8.17" & < "8.18~"}
   "coq-tactician"
-  "coq-tactician-stdlib"
 ]
 
 tags: [
