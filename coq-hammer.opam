@@ -23,7 +23,19 @@ depends: [
   "ocaml" {>= "4.08"}
   "coq" {>= "8.17" & < "8.18~"}
   ("conf-g++" {build} | "conf-clang" {build})
-  "coq-hammer-tactics" {= version}
+  "coq-hammer-tactics"
+  "coq-tactician"
+  "z3_tptp"
+]
+pin-depends: [
+  [
+    "coq-tactician.8.17.dev"
+    "git+https://github.com/coq-tactician/coq-tactician.git#95e7cd05a47a9a3371f344b55f81b71330d284bb"
+  ]
+  [
+    "coq-hammer-tactics.8.17.dev"
+    "git+https://github.com/LasseBlaauwbroek/coqhammer.git#65d1b226496e743321687c7d393c6f45301a4494"
+  ]
 ]
 
 tags: [

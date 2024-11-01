@@ -41,10 +41,10 @@ uninstall-mathcomp: Makefile.coq.mathcomp
 	$(MAKE) -f Makefile.coq.mathcomp uninstall
 
 Makefile.coq.plugin: _CoqProject.plugin
-	coq_makefile -f _CoqProject.plugin -o Makefile.coq.plugin
+	coq_makefile -f _CoqProject.plugin -o Makefile.coq.plugin -I $(shell opam var prefix)/lib/coq-tactician/record-plugin
 
 Makefile.coq.tactics: _CoqProject.tactics
-	coq_makefile -f _CoqProject.tactics -o Makefile.coq.tactics
+	coq_makefile -f _CoqProject.tactics -o Makefile.coq.tactics -I $(shell opam var prefix)/lib/coq-tactician/record-plugin
 
 Makefile.coq.mathcomp: _CoqProject.mathcomp
 	coq_makefile -f _CoqProject.mathcomp -o Makefile.coq.mathcomp

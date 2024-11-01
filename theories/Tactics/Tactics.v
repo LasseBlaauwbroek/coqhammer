@@ -3,6 +3,7 @@
 (* This file contains the Ltac part of the automated reasoning tactics. *)
 (* This file may be distributed under the terms of the LGPL 2.1 license. *)
 
+From Tactician Require Import Ltac1.
 Declare ML Module "coq-hammer-tactics.lib".
 
 Require Import Lia.
